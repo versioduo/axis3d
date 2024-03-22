@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const name = 'axis3d';
-const version = 37;
+const version = 38;
 const files = [
   './',
   'css/bulma-addons.css',
