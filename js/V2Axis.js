@@ -9,7 +9,6 @@ class V2Axis extends V2WebModule {
     z: null
   });
   #invert = null;
-  #swap = null;
   #quat = null;
   #update = null;
 
@@ -152,34 +151,6 @@ class V2Axis extends V2WebModule {
           e.classList.add('check');
         });
       });
-
-      new V2WebField(this.canvas, (field) => {
-        field.addButton((e) => {
-          e.classList.add('width-text');
-          e.classList.add('has-background-light');
-          e.classList.add('inactive');
-          e.textContent = 'Swap Y/Z';
-          e.tabIndex = -1;
-        });
-
-        field.addElement('label', (label) => {
-          label.classList.add('switch');
-
-          V2Web.addElement(label, 'input', (e) => {
-            this.#swap = e;
-            e.type = 'checkbox';
-            e.checked = true;
-
-            e.addEventListener('change', () => {
-              this.#update();
-            });
-          });
-
-          V2Web.addElement(label, 'span', (e) => {
-            e.classList.add('check');
-          });
-        });
-      });
     });
 
     this.#cc.w = this.#cc.x = this.#cc.y = this.#cc.z = null;
@@ -197,7 +168,7 @@ class V2Axis extends V2WebModule {
       }
 
       return shader;
-    }
+    };
 
     const initShaderProgram = (gl, vsSource, fsSource) => {
       const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
@@ -214,7 +185,7 @@ class V2Axis extends V2WebModule {
       }
 
       return shaderProgram;
-    }
+    };
 
     const initBuffers = (gl) => {
       const positionBuffer = gl.createBuffer();
@@ -270,7 +241,7 @@ class V2Axis extends V2WebModule {
         color: colorBuffer,
         indices: indexBuffer,
       };
-    }
+    };
 
     const drawScene = (gl, programInfo, buffers) => {
       gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -353,12 +324,11 @@ class V2Axis extends V2WebModule {
         } else
           angle = glMatrix.quat.getAxisAngle(orientation, this.#quat);
 
-        if (this.#swap.checked) {
-          // Swap Y and Z axis.
-          const z = orientation[1];
-          orientation[1] = orientation[2];
-          orientation[2] = -z;
-        }
+        // Map ENU to GL:
+        // X (right)             <-  X (east)
+        // Y (up)                <-  Z (up)
+        // Z (depth, +to viewer) <- -Y (north)
+        [orientation[1], orientation[2]] = [orientation[2], -orientation[1]];
 
         glMatrix.mat4.rotate(
           modelViewMatrix,
@@ -380,7 +350,7 @@ class V2Axis extends V2WebModule {
         const offset = 0;
         gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
       }
-    }
+    };
 
     // https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Creating_3D_objects_using_WebGL
     const gl = this.#element.getContext("webgl") || this.#element.getContext("experimental-webgl");

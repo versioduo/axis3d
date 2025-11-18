@@ -1,8 +1,5 @@
-// © Kay Sievers <kay@versioduo.com>, 2021-2022
-// SPDX-License-Identifier: Apache-2.0
-
 const name = 'axis3d';
-const version = 38;
+const version = 42;
 const files = [
   './',
   'css/bulma-addons.css',

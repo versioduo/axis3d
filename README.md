@@ -1,3 +1,3 @@
-# Rotating cube with V2 axis orientation device
+## Copying
 
-![Screenshot](screenshot.png?raw=true)
+Anyone can use this public domain work without having to seek authorisation, no one can ever own it.
