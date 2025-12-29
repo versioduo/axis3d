@@ -202,7 +202,7 @@ class V2Axis extends V2WebModule {
       ];
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(faces), gl.STATIC_DRAW);
 
-      const faceColors = [
+      const faceColours = [
         [1.0, 0.0, 0.0, 1.0],
         [1.0, 0.0, 1.0, 1.0],
         [0.0, 1.0, 1.0, 1.0],
@@ -211,13 +211,13 @@ class V2Axis extends V2WebModule {
         [1.0, 1.0, 0.0, 1.0],
       ];
 
-      let colors = [];
-      for (const c of faceColors)
-        colors = colors.concat(c, c, c, c);
+      let colours = [];
+      for (const c of faceColours)
+        colours = colours.concat(c, c, c, c);
 
-      const colorBuffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+      const colourBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, colourBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colours), gl.STATIC_DRAW);
       const indexBuffer = gl.createBuffer();
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 
@@ -238,7 +238,7 @@ class V2Axis extends V2WebModule {
 
       return {
         position: positionBuffer,
-        color: colorBuffer,
+        colour: colourBuffer,
         indices: indexBuffer,
       };
     };
@@ -274,16 +274,16 @@ class V2Axis extends V2WebModule {
         const normalize = false;
         const stride = 0;
         const offset = 0;
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.colour);
         gl.vertexAttribPointer(
-          programInfo.attribLocations.vertexColor,
+          programInfo.attribLocations.vertexColour,
           numComponents,
           type,
           normalize,
           stride,
           offset
         );
-        gl.enableVertexAttribArray(programInfo.attribLocations.vertexColor);
+        gl.enableVertexAttribArray(programInfo.attribLocations.vertexColour);
       }
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
@@ -362,24 +362,24 @@ class V2Axis extends V2WebModule {
 
     const vertexSource = `
       attribute vec4 aVertexPosition;
-      attribute vec4 aVertexColor;
+      attribute vec4 aVertexColour;
 
       uniform mat4 uModelViewMatrix;
       uniform mat4 uProjectionMatrix;
 
-      varying lowp vec4 vColor;
+      varying lowp vec4 vColour;
 
       void main(void) {
         gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-        vColor = aVertexColor;
+        vColour = aVertexColour;
       }
     `;
 
     const fragmentSource = `
-      varying lowp vec4 vColor;
+      varying lowp vec4 vColour;
 
       void main(void) {
-        gl_FragColor = vColor;
+        gl_FragColor = vColour;
       }
     `;
 
@@ -388,7 +388,7 @@ class V2Axis extends V2WebModule {
       program: shaderProgram,
       attribLocations: {
         vertexPosition: gl.getAttribLocation(shaderProgram, "aVertexPosition"),
-        vertexColor: gl.getAttribLocation(shaderProgram, "aVertexColor"),
+        vertexColour: gl.getAttribLocation(shaderProgram, "aVertexColour"),
       },
       uniformLocations: {
         projectionMatrix: gl.getUniformLocation(
