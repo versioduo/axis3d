@@ -1,5 +1,5 @@
 const name = 'axis3d';
-const version = 44;
+const version = 47;
 const files = [
   './',
   'css/bulma-addons.css',
