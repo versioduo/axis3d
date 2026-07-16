@@ -1,6 +1,3 @@
-// © Kay Sievers <kay@versioduo.com>, 2019-2022
-// SPDX-License-Identifier: Apache-2.0
-
 class V2Device extends V2Connection {
   #wakeLock = null;
 
@@ -39,7 +36,7 @@ class V2Device extends V2Connection {
         return;
 
       this.#wakeLock = await navigator.wakeLock.request('screen');
-    }
+    };
 
     requestWakeLock();
   }

@@ -1,89 +1,113 @@
 @font-face {
   font-family: 'DIN 1451';
-  font-style: normal;
-  font-weight: normal;
-  font-display: auto;
   src: url('../webfonts/AlteDIN1451Mittelschrift.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Font Awesome Solid';
-  font-style: normal;
-  font-weight: 900;
-  font-display: auto;
   src: url("../webfonts/fa-solid-900.woff2") format("woff2");
 }
 
 @font-face {
   font-family: 'Font Awesome Brands';
-  font-style: normal;
-  font-weight: normal;
-  font-display: auto;
   src: url("../webfonts/fa-brands-400.woff2") format("woff2");
 }
 
-.fa {
-  font-family: 'Font Awesome Solid';
+i.icon {
   font-style: normal;
-}
+  margin-right: 0.5rem;
 
-.fa-brands {
-  font-family: 'Font Awesome Brands';
-  font-style: normal;
-}
+  &.--nospace {
+    margin: 0;
+  }
 
-.fa-microchip:before {
-  content: "\f2db";
-}
+  &.--microchip:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f2db';
+  }
 
-.fa-magnifying-glass-chart:before {
-  content: "\e522";
-}
+  &.--magnifying-glass-chart:before {
+    font-family: 'Font Awesome Solid';
+    content: '\e522';
+  }
 
-.fa-computer:before {
-  content: "\e4e5";
-}
+  &.--computer:before {
+    font-family: 'Font Awesome Solid';
+    content: '\e4e5';
+  }
 
-.fa-book-open-reader:before {
-  content: "\f5da";
-}
+  &.--book-open-reader:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f5da';
+  }
 
-.fa-screwdriver-wrench:before {
-  content: "\f7d9";
-}
+  &.--screwdriver-wrench:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f7d9';
+  }
 
-.fa-file-code:before {
-  content: "\f1c9";
-}
+  &.--file-code:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f1c9';
+  }
 
-.fa-music:before {
-  content: "\f001";
-}
+  &.--music:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f001';
+  }
 
-.fa-sliders:before {
-  content: "\f1de";
-}
+  &.--sliders:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f1de';
+  }
 
-.fa-plug:before {
-  content: "\f1e6";
-}
+  &.--plug:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f1e6';
+  }
 
-.fa-envelope:before {
-  content: "\f0e0";
-}
+  &.--link:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f0c1';
+  }
 
-.fa-github:before {
-  content: "\f09b";
-}
+  &.--envelope:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f0e0';
+  }
 
-.fa-mastodon:before {
-  content: "\f4f6";
-}
+  &.--play:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f04b';
+  }
 
-.fa-instagram:before {
-  content: "\f16d";
-}
+  &.--plus:before {
+    font-family: 'Font Awesome Solid';
+    content: '\2b';
+  }
 
-.fa-youtube:before {
-  content: "\f167";
+  &.--minus:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f068';
+  }
+
+  &.--github:before {
+    font-family: 'Font Awesome Brands';
+    content: '\f09b';
+  }
+
+  &.--mastodon:before {
+    font-family: 'Font Awesome Brands';
+    content: '\f4f6';
+  }
+
+  &.--instagram:before {
+    font-family: 'Font Awesome Brands';
+    content: '\f16d';
+  }
+
+  &.--youtube:before {
+    font-family: 'Font Awesome Brands';
+    content: '\f167';
+  }
 }

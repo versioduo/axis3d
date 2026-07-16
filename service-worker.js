@@ -1,10 +1,9 @@
 const name = 'axis3d';
-const version = 48;
+const version = 313;
 const files = [
   './',
-  'css/bulma-addons.css',
-  'css/bulma.min.css',
   'css/fonts.css',
+  'css/style.css',
   'icons/logo-black.svg',
   'icons/logo-boxed.png',
   'icons/logo-boxed.svg',

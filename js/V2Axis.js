@@ -92,64 +92,46 @@ class V2Axis extends V2WebModule {
   #show() {
     this.#notify = new V2WebNotify(this.canvas);
 
-    new V2WebField(this.canvas, (field) => {
-      V2Web.addButtons(this.canvas, (buttons) => {
-        V2Web.addButton(buttons, (e) => {
-          e.textContent = 'Reset';
-          e.addEventListener('click', () => {
-            this.#device.sendSystemReset();
-            this.#quat = glMatrix.quat.create();
-            this.#update();
-          });
+    new V2WebMenu(this.canvas, (menu) => {
+      menu.addElement('button', (e) => {
+        e.textContent = 'Reset';
+        e.addEventListener('click', () => {
+          this.#device.sendSystemReset();
+          this.#quat = glMatrix.quat.create();
+          this.#update();
         });
+      });
 
-        V2Web.addButton(buttons, (e) => {
-          e.textContent = 'Home';
-          e.addEventListener('click', () => {
-            this.#device.sendControlChange(0, V2MIDI.CC.controller14, 0);
-          });
+      menu.addElement('button', (e) => {
+        e.textContent = 'Home';
+        e.addEventListener('click', () => {
+          this.#device.sendControlChange(0, V2MIDI.CC.controller14, 0);
         });
+      });
 
-        V2Web.addButton(buttons, (e) => {
-          e.textContent = 'Save';
-          e.addEventListener('click', () => {
-            this.#device.sendControlChange(0, V2MIDI.CC.controller15, 0);
-          });
+      menu.addElement('button', (e) => {
+        e.textContent = 'Save';
+        e.addEventListener('click', () => {
+          this.#device.sendControlChange(0, V2MIDI.CC.controller15, 0);
         });
       });
     });
 
     V2Web.addElement(this.canvas, 'canvas', (e) => {
       this.#element = e;
-      e.classList.add('mb-4');
       e.width = e.height = 1024;
       e.style.width = '100%';
+      e.style.marginBottom = '1rem';
     });
 
-    new V2WebField(this.canvas, (field) => {
-      field.addButton((e) => {
-        e.classList.add('width-text');
-        e.classList.add('has-background-light');
-        e.classList.add('inactive');
+    new V2WebMenu(this.canvas, (menu) => {
+      menu.addElement('span', (e) => {
         e.textContent = 'Invert';
-        e.tabIndex = -1;
       });
 
-      field.addElement('label', (label) => {
-        label.classList.add('switch');
-
-        V2Web.addElement(label, 'input', (e) => {
-          this.#invert = e;
-          e.type = 'checkbox';
-
-          e.addEventListener('change', () => {
-            this.#update();
-          });
-        });
-
-        V2Web.addElement(label, 'span', (e) => {
-          e.classList.add('check');
-        });
+      menu.addElement('input', (e) => {
+        this.#invert = e;
+        e.type = 'checkbox';
       });
     });
 
