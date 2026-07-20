@@ -55,4 +55,8 @@ class V2Device extends V2Connection {
       this.#wakeLock = null;
     }
   }
+
+  sendReset(mode) {
+    this.sendSystemReset();
+  }
 }
