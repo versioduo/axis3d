@@ -7,6 +7,7 @@
   --colour-background-section: light-dark(hsl(from var(--colour-background) h s calc(l - 6)), hsl(from var(--colour-background) h s calc(l + 10)));
   --colour-background-card: light-dark(hsl(from var(--colour-background) h s calc(l - 12)), hsl(from var(--colour-background) h s calc(l + 20)));
   --colour-link: light-dark(hsl(220, 70%, 70%), hsl(220deg 50% 45%));
+  --content-width: 24rem;
 }
 
 * {
@@ -47,45 +48,53 @@ html {
       text-decoration: none;
     }
 
+    >h1 {
+      align-content: center;
+      font-size: 2rem;
+      font-weight: normal;
+      height: 3rem;
+      left: 3rem;
+      position: fixed;
+      text-align: center;
+      top: 0;
+      width: calc(100vw - 3rem);
+
+      >a {
+        align-content: center;
+        display: inline-block;
+        height: 100%;
+        padding-right: 3rem;
+        width: 100%;
+      }
+    }
+
     >details {
+      &:not(:has(>ul>li)) {
+        display: none;
+      }
+
       >summary {
+        align-content: center;
+        cursor: pointer;
         font-size: 2rem;
         height: 3rem;
-        list-style: none;
+        text-align: center;
+        width: 3rem;
 
-        &::before {
-          align-content: center;
-          content: '\f0c9';
+        &::marker {
           font-family: 'Font Awesome Solid';
-          height: inherit;
-          padding-left: 0.5rem;
-          padding-right: 0.5rem;
-          position: fixed;
-          z-index: 2;
+          content: '\f0c9';
         }
 
-        [open] &::before {
+        [open] &::marker {
+          font-family: 'Font Awesome Solid';
           content: '\f00d';
-        }
-
-        >h1 {
-          font-size: inherit;
-          font-weight: inherit;
-          height: 100%;
-
-          >a {
-            align-content: center;
-            display: inline-block;
-            height: 100%;
-            text-align: center;
-            width: 100%;
-          }
         }
       }
 
       >ul {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(var(--content-width), 1fr));
         max-height: calc(100vh - 3rem);
         overflow-y: auto;
         padding: 0.5rem;
@@ -106,35 +115,24 @@ html {
           }
         }
 
-        >li {
-          flex: 1 1 0%;
-
-          >a {
-            font-size: 1.5rem;
-            font-weight: bolder;
-          }
-
-          @media all and (max-width: 60rem) {
-            & {
-              flex-basis: 50%;
-            }
-          }
-
-          @media all and (max-width: 40rem) {
-            & {
-              flex-basis: 100%;
-            }
-          }
+        >li>a {
+          font-size: 1.5rem;
+          font-weight: bolder;
         }
       }
     }
   }
 
   main {
+    column-gap: 0.5rem;
     display: grid;
-    gap: 1rem;
     padding-top: 3rem;
     padding-left: 0.5rem;
+    row-gap: 1rem;
+
+    &.grid {
+      grid-template-columns: repeat(auto-fit, minmax(var(--content-width), 1fr));
+    }
 
     p {
       margin-bottom: 1rem;
@@ -150,37 +148,30 @@ html {
       }
     }
 
-    header,
-    footer {
-      margin-right: 0.5rem;
+    header {
       margin-bottom: 0.5rem;
+      padding-right: 0.5rem;
 
-      &.columns {
-        column-count: 3;
-        column-gap: 1rem;
-
-        @media all and (max-width: 60rem) {
-          & {
-            column-count: 2;
-
-          }
-        }
-
-        @media all and (max-width: 40rem) {
-          & {
-            column-count: auto;
-          }
-        }
+      &.center {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: calc(var(--content-width) * 2);
       }
+    }
+
+    footer {
+      column-count: 3;
+      column-width: var(--content-width);
+      margin-bottom: 0.5rem;
+      padding-right: 0.5rem;
     }
 
     input[type=range] {
       appearance: none;
       background-color: hsl(from var(--colour) h s l / 20%);
-      border-top-left-radius: 50vh;
-      border-bottom-left-radius: 50vh;
+      border-radius: 50vh;
       margin-bottom: 3rem;
-      width: 100%;
+      width: calc(100% - 0.5rem);
 
       &:hover {
         background-color: hsl(from var(--colour) h s l / 30%);
@@ -192,15 +183,13 @@ html {
 
       &::-webkit-slider-runnable-track {
         border: none;
-        border-top-left-radius: 50vh;
-        border-bottom-left-radius: 50vh;
+        border-radius: 50vh;
         height: 1rem;
       }
 
       &::-moz-range-track {
         border: none;
-        border-top-left-radius: 50vh;
-        border-bottom-left-radius: 50vh;
+        border-radius: 50vh;
         height: 1rem;
       }
 
@@ -230,25 +219,23 @@ html {
       border: none;
       height: 1rem;
       margin-bottom: 2rem;
-      width: 100%;
+      width: calc(100% - 0.5rem);
       background-color: hsl(from var(--colour) h s l / 10%);
+      border-radius: 50vh;
 
       &::-webkit-progress-bar {
         background-color: hsl(from var(--colour) h s l / 10%);
-        border-top-left-radius: 50vh;
-        border-bottom-left-radius: 50vh;
+        border-radius: 50vh;
       }
 
       &::-moz-progress-bar {
         background-color: hsl(from var(--colour) h s l / 70%);
-        border-top-left-radius: 50vh;
-        border-bottom-left-radius: 50vh;
+        border-radius: 50vh;
       }
 
       &::-webkit-progress-value {
         background-color: hsl(from var(--colour) h s l / 70%);
-        border-top-left-radius: 50vh;
-        border-bottom-left-radius: 50vh;
+        border-radius: 50vh;
       }
     }
 
@@ -274,11 +261,19 @@ html {
         &:first-child {
           border-top-left-radius: 50vh;
           border-bottom-left-radius: 50vh;
+
+          >* {
+            padding-left: 1rem;
+          }
         }
 
         &:last-child {
           border-top-right-radius: 50vh;
           border-bottom-right-radius: 50vh;
+
+          >* {
+            padding-right: 1rem;
+          }
         }
 
         >input {
@@ -305,7 +300,7 @@ html {
           }
 
           &[type=text] {
-            padding-left: 0.5rem;
+            padding-left: 0.75rem;
 
             &::placeholder {
               color: hsl(from var(--colour) h s l / 60%);
@@ -336,31 +331,52 @@ html {
           text-decoration: none;
         }
 
-        >a,
-        >button,
-        >select,
-        >span,
-        >i.icon {
+        >* {
           align-content: center;
           border-radius: inherit;
           display: inline-block;
           height: 100%;
-          padding: 0.5rem 1rem;
-          text-align: center;
+          padding: 0.5rem 0.75rem;
         }
 
         >button,
         >span,
         >i.icon {
+          background-color: hsl(from var(--colour) h s l / 20%);
           font-family: inherit;
+          text-align: center;
+
+          &.label {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            width: 6rem;
+          }
+
+          &.text {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            width: 12rem;
+          }
+
+          &.text-small {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            width: 8rem;
+          }
+
+          &.field {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            width: 4rem;
+          }
 
           &.light {
-            background-color: hsl(from var(--colour-dark) h s l / 70%);
+            background-color: hsl(from var(--colour-dark) h s l / 80%);
             color: hsl(from var(--colour-light) h s l / 90%);
           }
 
           &.dark {
-            background-color: hsl(from var(--colour-light) h s l / 60%);
+            background-color: hsl(from var(--colour-light) h s l / 50%);
             color: hsl(from var(--colour-dark) h s l / 90%);
           }
         }
@@ -368,29 +384,27 @@ html {
         >button {
           &.light {
             &:hover {
-              background-color: hsl(from var(--colour-dark) h s l / 80%);
+              background-color: hsl(from var(--colour-dark) h s l / 90%);
             }
 
             &:active {
-              background-color: hsl(from var(--colour-dark) h s l / 90%);
+              background-color: hsl(from var(--colour-dark) h s l / 95%);
             }
           }
 
           &.dark {
             &:hover {
-              background-color: hsl(from var(--colour-light) h s l / 70%);
+              background-color: hsl(from var(--colour-light) h s l / 60%);
             }
 
             &:active {
-              background-color: hsl(from var(--colour-light) h s l / 80%);
+              background-color: hsl(from var(--colour-light) h s l / 70%);
             }
           }
         }
 
-
         >button,
         >select {
-          background-color: hsl(from var(--colour) h s l / 20%);
           border-style: none;
           font-family: inherit;
           font-size: 1em;
@@ -420,31 +434,8 @@ html {
         }
 
         >select {
+          background-color: hsl(from var(--colour) h s l / 20%);
           border-right: 1rem solid transparent;
-        }
-
-        >button,
-        >span,
-        >i.icon {
-          background-color: hsl(from var(--colour) h s l / 10%);
-
-          &.label {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            width: 6rem;
-          }
-
-          &.text {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            width: 10rem;
-          }
-
-          &.field {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            width: 4rem;
-          }
         }
 
         >a,
@@ -484,12 +475,7 @@ html {
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
 
-          >a,
-          >button,
-          >input,
-          >select,
-          >span,
-          >i.icon {
+          >* {
             padding: 0;
             width: 100%;
           }
@@ -497,7 +483,7 @@ html {
       }
 
       &.font-scale {
-        font-size: clamp(0.5rem, 2vw, 1rem);
+        font-size: clamp(0.75rem, 3cqw, 1rem);
       }
     }
 
@@ -604,6 +590,8 @@ html {
       background-color: var(--colour-background-section);
       border-top-left-radius: 1rem;
       box-shadow: hsl(0 0 40% / 20%) -0.1rem 0.1rem 0.2rem;
+      container-name: section;
+      container-type: inline-size;
       padding-left: 0.5rem;
       width: 100%;
 
@@ -620,20 +608,12 @@ html {
       }
 
       >ul.cards {
+        column-gap: 0.5rem;
         display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(3, 1fr);
+        row-gap: 1rem;
 
-        @media all and (max-width: 60rem) {
-          & {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media all and (max-width: 40rem) {
-          & {
-            grid-template-columns: auto;
-          }
+        &.--grid {
+          grid-template-columns: repeat(auto-fit, minmax(var(--content-width), 1fr));
         }
 
         >li {
@@ -651,10 +631,6 @@ html {
               font-weight: bolder;
               padding-bottom: 0.25rem;
             }
-          }
-
-          >header {
-            padding-right: 0.5rem;
           }
         }
       }

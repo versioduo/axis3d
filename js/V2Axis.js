@@ -13,7 +13,7 @@ class V2Axis extends V2WebModule {
   #update = null;
 
   constructor(device) {
-    super('axis', 'Axis', 'Turn object with MIDI orientation data');
+    super('axis', '--compass', 'Axis', 'Turn Object with MIDI Orientation Data');
     this.#device = device;
 
     this.#device.addNotifier('show', () => {

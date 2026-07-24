@@ -62,13 +62,19 @@ class V2Web {
     });
   }
 
-  static addNavigation(id, title, target) {
+  static addNavigation(id, icon, title, target) {
     this.addElement(document.querySelector('nav details ul'), 'li', (li) => {
       li.id = 'nav-' + id;
 
       this.addElement(li, 'a', (e) => {
         e.href = target;
-        e.textContent = title;
+
+        if (icon)
+          V2Web.addElement(e, 'i', (i) => {
+            i.classList.add('icon', icon);
+          });
+
+        e.append(title);
       });
     });
   }
@@ -238,15 +244,15 @@ class V2WebMenu {
 
 class V2WebTabs {
   current = null;
+  element = null;
 
-  #element = null;
   #elementsTabs = null;
   #tabs = {};
   #notifiers = [];
 
   constructor(element, handler) {
     V2Web.addElement(element, 'div', (tabs) => {
-      this.#element = tabs;
+      this.element = tabs;
 
       new V2WebMenu(tabs, (menu) => {
         menu.element.classList.add('full');
@@ -255,7 +261,7 @@ class V2WebTabs {
     });
 
     if (handler)
-      handler(this, this.#element);
+      handler(this);
 
     return Object.seal(this);
   }
@@ -264,7 +270,7 @@ class V2WebTabs {
     this.#notifiers.push(handler);
   }
 
-  addTab(name, text, icon, handler) {
+  addTab(name, icon, text, handler) {
     this.#tabs[name] = {};
 
     this.#elementsTabs.addElement('button', (e) => {
@@ -277,13 +283,13 @@ class V2WebTabs {
       });
 
       V2Web.addElement(e, 'i', (i) => {
-        i.classList.add('icon', '--' + icon);
+        i.classList.add('icon', icon);
       });
       V2Web.addElement(e, 'span', (s) => { s.textContent = text; });
       this.#tabs[name].tab = e;
     });
 
-    V2Web.addElement(this.#element, 'div', (e) => {
+    V2Web.addElement(this.element, 'div', (e) => {
       if (handler)
         handler(e);
 
@@ -318,42 +324,39 @@ class V2WebTabs {
   }
 
   remove() {
-    this.#element.remove();
+    this.element.remove();
   }
 }
 
 class V2WebModule {
   canvas = null;
+  id = null;
 
-  #section = null;
-  #id = null;
   #header = Object.seal({
     element: null,
+    icon: null,
     title: null,
   });
 
-  constructor(id, title, subtitle) {
+  constructor(id, icon, title, subtitle) {
     if (id)
-      this.#id = id;
+      this.id = id;
 
-    this.#section = document.createElement('section');
-    if (this.#id)
-      this.#section.id = id;
+    this.canvas = document.createElement('section');
+    if (this.id)
+      this.canvas.id = id;
 
-    V2Web.addElement(this.#section, 'hgroup', (e) => {
+    V2Web.addElement(this.canvas, 'hgroup', (e) => {
       this.#header.element = e;
     });
 
     if (title) {
-      this.title(title, subtitle);
+      this.title(icon, title, subtitle);
     }
-
-    V2Web.addElement(this.#section, 'div', (e) => {
-      this.canvas = e;
-    });
   }
 
-  title(title, subtitle) {
+  title(icon, title, subtitle) {
+    this.#header.icon = icon || null;
     this.#header.title = title || null;
 
     while (this.#header.element.firstChild)
@@ -363,7 +366,12 @@ class V2WebModule {
       return;
 
     V2Web.addElement(this.#header.element, 'h2', (e) => {
-      e.textContent = title;
+      if (icon)
+        V2Web.addElement(e, 'i', (i) => {
+          i.classList.add('icon', icon);
+        });
+
+      e.append(title);
     });
 
     if (subtitle) {
@@ -374,42 +382,41 @@ class V2WebModule {
   }
 
   attach() {
-    if (this.#section.parentNode)
+    if (this.canvas.parentNode)
       return;
 
-    if (this.#id)
-      V2Web.addNavigation(this.#id, this.#header.title, '#' + this.#id);
+    if (this.id && this.#header.title)
+      V2Web.addNavigation(this.id, this.#header.icon, this.#header.title, '#' + this.id);
 
-    document.querySelector('main').appendChild(this.#section);
-  }
-
-  // Clear all content.
-  reset() {
-    while (this.canvas.firstChild)
-      this.canvas.firstChild.remove();
+    document.querySelector('main').appendChild(this.canvas);
   }
 
   detach() {
-    if (!this.#section.parentNode)
+    if (!this.canvas.parentNode)
       return;
 
-    if (this.#id)
-      V2Web.removeNavigation(this.#id);
+    if (this.id && this.#header.title)
+      V2Web.removeNavigation(this.id);
 
-    this.#section.remove();
+    this.canvas.remove();
   }
 
   show() {
-    if (this.#id)
-      V2Web.addNavigation(this.#id, this.#header.title, '#' + this.#id);
+    if (this.id)
+      V2Web.addNavigation(this.id, this.#header.icon, this.#header.title, '#' + this.id);
 
-    this.#section.style.display = '';
+    this.canvas.style.display = '';
   }
 
   hide() {
-    if (this.#id)
-      V2Web.removeNavigation(this.#id);
+    if (this.id)
+      V2Web.removeNavigation(this.id);
 
-    this.#section.style.display = 'none';
+    this.canvas.style.display = 'none';
+  }
+
+  reset() {
+    while (this.canvas.firstChild)
+      this.canvas.firstChild.remove();
   }
 }
