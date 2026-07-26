@@ -15,6 +15,7 @@
 
 i.icon {
   font-style: normal;
+  font-weight: normal;
   margin-right: 0.5rem;
 
   &.--nospace {
@@ -36,14 +37,34 @@ i.icon {
     content: '\f5da';
   }
 
+  &.--bug:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f188';
+  }
+
   &.--code-branch:before {
     font-family: 'Font Awesome Solid';
     content: '\f126';
   }
 
+  &.--compass:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f14e';
+  }
+
   &.--computer:before {
     font-family: 'Font Awesome Solid';
     content: '\e4e5';
+  }
+
+  &.--console:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f120';
+  }
+
+  &.--copy:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f0c5';
   }
 
   &.--envelope:before {
@@ -56,6 +77,16 @@ i.icon {
     content: '\f1c9';
   }
 
+  &.--gear:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f013';
+  }
+
+  &.--guitar:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f7a6';
+  }
+
   &.--icons:before {
     font-family: 'Font Awesome Solid';
     content: '\f86d';
@@ -64,6 +95,11 @@ i.icon {
   &.--link:before {
     font-family: 'Font Awesome Solid';
     content: '\f0c1';
+  }
+
+  &.--list:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f03a';
   }
 
   &.--magnifying-glass-chart:before {
@@ -101,6 +137,16 @@ i.icon {
     content: '\2b';
   }
 
+  &.--right-to-bracket:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f2f6';
+  }
+
+  &.--right-from-bracket:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f2f5';
+  }
+
   &.--rotate:before {
     font-family: 'Font Awesome Solid';
     content: '\f2f1';
@@ -114,6 +160,11 @@ i.icon {
   &.--sliders:before {
     font-family: 'Font Awesome Solid';
     content: '\f1de';
+  }
+
+  &.--xmark:before {
+    font-family: 'Font Awesome Solid';
+    content: '\f00d';
   }
 
   &.--github:before {

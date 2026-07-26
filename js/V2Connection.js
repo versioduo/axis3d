@@ -11,14 +11,12 @@ class V2Connection extends V2WebModule {
   });
 
   constructor(log, connect) {
-    super();
+    super('connection');
     this.log = log;
     this.midi = new V2MIDI();
     this.notify = new V2WebNotify(this.canvas);
 
     new V2WebMenu(this.canvas, (menu) => {
-      menu.element.classList.add('center');
-
       menu.addElement('span', (e) => {
         e.textContent = 'Device';
       });
@@ -26,7 +24,7 @@ class V2Connection extends V2WebModule {
       let reset = null;
       menu.addItem((li) => {
         this.select = new V2MIDISelect(li);
-        this.select.element.classList.add('link');
+        this.select.element.classList.add('primary');
 
         this.select.addNotifier('select', (device) => {
           if (device) {
@@ -45,13 +43,10 @@ class V2Connection extends V2WebModule {
           reset.disabled = true;
         });
 
-        // Focus the device selector when new devices arrive and we are
-        // not currently connected.
         this.select.addNotifier('add', () => {
           if (this.device.input)
             return;
 
-          this.select.focus();
           window.scroll(0, 0);
         });
       });
@@ -59,6 +54,7 @@ class V2Connection extends V2WebModule {
       menu.addElement('button', (e) => {
         reset = e;
         e.disabled = true;
+        e.classList.add('icon', 'field');
 
         V2Web.addElement(e, 'i', (i) => {
           i.classList.add('icon', '--rotate', '--nospace');

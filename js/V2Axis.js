@@ -13,7 +13,7 @@ class V2Axis extends V2WebModule {
   #update = null;
 
   constructor(device) {
-    super('axis', 'Axis', 'Turn object with MIDI orientation data');
+    super('axis', '--compass', 'Axis', 'Turn Object with MIDI Orientation Data');
     this.#device = device;
 
     this.#device.addNotifier('show', () => {
@@ -23,7 +23,7 @@ class V2Axis extends V2WebModule {
 
     this.#device.addNotifier('reset', () => {
       this.detach();
-      this.reset();
+      this.#reset();
     });
 
     this.#device.getDevice().addNotifier('controlChange', (channel, controller, value) => {
@@ -119,8 +119,11 @@ class V2Axis extends V2WebModule {
 
     V2Web.addElement(this.canvas, 'canvas', (e) => {
       this.#element = e;
-      e.width = e.height = 1024;
-      e.style.width = '100%';
+      e.width = e.height = 2048;
+      e.style.width = 'min(100cqw, 100vh)';
+      e.style.display = 'block';
+      e.style.marginLeft = 'auto';
+      e.style.marginRight = 'auto';
       e.style.marginBottom = '1rem';
     });
 
@@ -394,7 +397,7 @@ class V2Axis extends V2WebModule {
   }
 
   #reset() {
-    while (this.#element.firstChild)
+    while (this.#element?.firstChild)
       this.#element.firstChild.remove();
   }
 }
