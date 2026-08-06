@@ -1,4 +1,4 @@
-class V2Axis extends V2WebModule {
+class V2Axis extends V2AppSection {
   #device = null;
   #notify = null;
   #element = null;
@@ -17,13 +17,13 @@ class V2Axis extends V2WebModule {
     this.#device = device;
 
     this.#device.addNotifier('show', () => {
+      this.removeSection();
+      this.addSection();
       this.#show();
-      this.attach();
     });
 
     this.#device.addNotifier('reset', () => {
-      this.detach();
-      this.#reset();
+      this.removeSection();
     });
 
     this.#device.getDevice().addNotifier('controlChange', (channel, controller, value) => {
@@ -90,9 +90,9 @@ class V2Axis extends V2WebModule {
   }
 
   #show() {
-    this.#notify = new V2WebNotify(this.canvas);
+    this.#notify = new V2AppNotify(this.canvas);
 
-    new V2WebMenu(this.canvas, (menu) => {
+    new V2AppMenu(this.canvas, (menu) => {
       menu.addElement('button', (e) => {
         e.textContent = 'Reset';
         e.addEventListener('click', () => {
@@ -117,7 +117,7 @@ class V2Axis extends V2WebModule {
       });
     });
 
-    V2Web.addElement(this.canvas, 'canvas', (e) => {
+    V2App.addElement(this.canvas, 'canvas', (e) => {
       this.#element = e;
       e.width = e.height = 2048;
       e.style.width = 'min(100cqw, 100vh)';
@@ -127,7 +127,7 @@ class V2Axis extends V2WebModule {
       e.style.marginBottom = '1rem';
     });
 
-    new V2WebMenu(this.canvas, (menu) => {
+    new V2AppMenu(this.canvas, (menu) => {
       menu.addElement('span', (e) => {
         e.textContent = 'Invert';
       });

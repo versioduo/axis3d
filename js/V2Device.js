@@ -23,13 +23,8 @@ class V2Device extends V2Connection {
     if (this.device.input)
       this.device.input.onmidimessage = this.device.handleMessage.bind(this.device);
 
-    // Detach the Log section and attach it again after all other sections.
-    this.log.detach();
-
     for (const notifier of this.notifiers.show)
       notifier();
-
-    this.log.attach();
 
     const requestWakeLock = async () => {
       if (!navigator.wakeLock)
@@ -47,8 +42,6 @@ class V2Device extends V2Connection {
 
     for (const notifier of this.notifiers.reset)
       notifier();
-
-    this.log.detach();
 
     if (this.#wakeLock) {
       this.#wakeLock.release();
