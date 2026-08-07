@@ -1,5 +1,5 @@
 const name = 'axis3d';
-const version = 52;
+const version = 54;
 const files = [
   './',
   'css/fonts.css',

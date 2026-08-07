@@ -36,9 +36,7 @@ class V2Device extends V2Connection {
   disconnect() {
     this.device.disconnect();
     this.select.setDisconnected();
-
-    for (const notifier of this.notifiers.reset)
-      notifier();
+    this.app.callSections('reset');
 
     if (this.#wakeLock) {
       this.#wakeLock.release();
