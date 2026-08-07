@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta name="name" content="axis3d">
     <meta name="description" content="3D Orientation">
-    <meta name="version" content="49">
-    <meta name="revised" content="2026-08-06">
+    <meta name="version" content="52">
+    <meta name="revised" content="2026-08-07">
     <meta name="copyright" content="Anyone can use this public domain work without having to seek authorisation, no one can ever own it.">
     <meta name="rating" content="safe for kids">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +42,9 @@
       'use strict';
 
       new V2App((app) => {
+        app.device = null;
+        Object.seal(app);
+
         // Read commands from the URL.
         const url = new URL(window.location);
 
@@ -53,11 +56,11 @@
           window.history.pushState({}, '', url);
         }
 
-        // Early logging init, we don't have a device but we already log messages.
-        new V2Log((log) => {
-          const device = new V2Device(log, connect);
-          app.addSection(new V2Axis(device));
-          app.addSection(log.setup(device));
+        // Early log init, but added as last section. We don't have a device but we already log messages.
+        app.addSection(V2Log, [], (log) => {
+          app.device = new V2Device(app, log, connect);
+
+          app.addSection(V2Axis);
         });
 
         // Cache the content for offline operation.

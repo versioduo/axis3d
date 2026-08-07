@@ -1,5 +1,4 @@
 class V2Axis extends V2AppSection {
-  #device = null;
   #notify = null;
   #element = null;
   #cc = Object.seal({
@@ -12,21 +11,11 @@ class V2Axis extends V2AppSection {
   #quat = null;
   #update = null;
 
-  constructor(device) {
-    super('axis', '--compass', 'Axis', 'Turn Object with MIDI Orientation Data');
-    this.#device = device;
+  constructor(app) {
+    super(app, 'axis', '--compass', 'Axis', 'Turn Object with MIDI Orientation Data');
+    Object.seal(this);
 
-    this.#device.addNotifier('show', () => {
-      this.removeSection();
-      this.addSection();
-      this.#show();
-    });
-
-    this.#device.addNotifier('reset', () => {
-      this.removeSection();
-    });
-
-    this.#device.getDevice().addNotifier('controlChange', (channel, controller, value) => {
+    this.app.device.getDevice().addNotifier('controlChange', (channel, controller, value) => {
       switch (controller) {
         case V2MIDI.CC.generalPurpose1 + 0:
           this.#cc.w = value;
@@ -85,18 +74,19 @@ class V2Axis extends V2AppSection {
         }
       }
     });
-
-    return Object.seal(this);
   }
 
-  #show() {
+  show() {
+    this.removeSection();
+    this.addSection();
+
     this.#notify = new V2AppNotify(this.canvas);
 
     new V2AppMenu(this.canvas, (menu) => {
       menu.addElement('button', (e) => {
         e.textContent = 'Reset';
         e.addEventListener('click', () => {
-          this.#device.sendSystemReset();
+          this.app.device.sendSystemReset();
           this.#quat = glMatrix.quat.create();
           this.#update();
         });
@@ -105,14 +95,14 @@ class V2Axis extends V2AppSection {
       menu.addElement('button', (e) => {
         e.textContent = 'Home';
         e.addEventListener('click', () => {
-          this.#device.sendControlChange(0, V2MIDI.CC.controller14, 0);
+          this.app.device.sendControlChange(0, V2MIDI.CC.controller14, 0);
         });
       });
 
       menu.addElement('button', (e) => {
         e.textContent = 'Save';
         e.addEventListener('click', () => {
-          this.#device.sendControlChange(0, V2MIDI.CC.controller15, 0);
+          this.app.device.sendControlChange(0, V2MIDI.CC.controller15, 0);
         });
       });
     });
@@ -147,7 +137,7 @@ class V2Axis extends V2AppSection {
       gl.compileShader(shader);
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
         this.#notify.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
-        this.#device.print('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+        this.app.device.print('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
         gl.deleteShader(shader);
         return null;
       }
@@ -165,7 +155,7 @@ class V2Axis extends V2AppSection {
       gl.linkProgram(shaderProgram);
       if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
         this.#notify.error('Error initializing the shader program: ' + gl.getProgramInfoLog(shaderProgram));
-        this.#device.print('Error initializing the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+        this.app.device.print('Error initializing the shader program: ' + gl.getProgramInfoLog(shaderProgram));
         return null;
       }
 
@@ -341,7 +331,7 @@ class V2Axis extends V2AppSection {
     const gl = this.#element.getContext("webgl") || this.#element.getContext("experimental-webgl");
     if (!gl) {
       this.#notify.error("WebGL is not supported");
-      this.#device.print("WebGL is not supported");
+      this.app.device.print("WebGL is not supported");
       return;
     }
 
@@ -392,12 +382,11 @@ class V2Axis extends V2AppSection {
       });
     };
 
-    this.#device.sendControlChange(0, V2MIDI.CC.allNotesOff, 0);
+    this.app.device.sendControlChange(0, V2MIDI.CC.allNotesOff, 0);
     this.#update();
   }
 
-  #reset() {
-    while (this.#element?.firstChild)
-      this.#element.firstChild.remove();
+  reset() {
+    this.removeSection();
   }
 }
