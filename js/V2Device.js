@@ -4,18 +4,29 @@ class V2Device extends V2Connection {
   constructor(app, log, connect) {
     super(app, log, connect);
     Object.seal(this);
+
+    this.addSection();
+    this.canvas.appendChild(this.connection.element);
+
+    V2App.addElement(this.canvas, 'p', (e) => {
+      e.classList.add('center');
+      e.innerHTML = '<a href=' + document.querySelector('link[rel="source"]').href +
+        ' target="software">' + document.querySelector('meta[name="name"]').content +
+        '</a>, version ' + Number(document.querySelector('meta[name="version"]').content);
+    });
   }
 
   connect(device) {
-    if (this.version)
-      this.version.remove();
+    this.removeSection();
+    this.addSection();
+    this.canvas.appendChild(this.connection.element);
 
     this.device.disconnect();
     this.app.callSections('reset');
 
     this.device.input = device.in;
     this.device.output = device.out;
-    this.select.setConnected();
+    this.connection.select.setConnected();
 
     // Dispatch incoming messages to V2MIDIDevice.
     if (this.device.input)
@@ -35,7 +46,7 @@ class V2Device extends V2Connection {
 
   disconnect() {
     this.device.disconnect();
-    this.select.setDisconnected();
+    this.connection.select.setDisconnected();
     this.app.callSections('reset');
 
     if (this.#wakeLock) {
