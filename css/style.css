@@ -30,6 +30,7 @@ html {
   color: var(--colour);
   font-family: 'DIN 1451', sans-serif;
   hyphens: auto;
+  scroll-behavior: smooth;
   scroll-padding-top: 3rem;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
@@ -686,6 +687,7 @@ html {
         position: fixed;
         text-align: center;
         top: 0;
+        white-space: nowrap;
         width: calc(100% - 3rem);
 
         >a {

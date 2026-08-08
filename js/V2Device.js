@@ -1,9 +1,10 @@
 class V2Device extends V2Connection {
   #wakeLock = null;
 
-  constructor(app, log, connect) {
-    super(app, log, connect);
+  constructor(app, log) {
+    super(app, 'device', '--plug', 'Device', 'MIDI Connection', log);
     Object.seal(this);
+    this.log = log;
 
     this.addSection();
     this.canvas.appendChild(this.connection.element);
