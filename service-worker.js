@@ -1,5 +1,5 @@
 const name = 'axis3d';
-const version = 60;
+const version = 66;
 const files = [
   './',
   'css/fonts.css',
@@ -9,11 +9,11 @@ const files = [
   'icons/logo.svg',
   'js/V2App.js',
   'js/V2Axis.js',
-  'js/V2Connection.js',
   'js/V2Device.js',
   'js/V2Log.js',
   'js/V2MIDI.js',
   'js/V2MIDISelect.js',
+  'js/V2Main.js',
   'js/gl-matrix-min.js',
   'manifest.json',
   'webfonts/AlteDIN1451Mittelschrift.woff2',

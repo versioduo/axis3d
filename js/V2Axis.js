@@ -15,7 +15,7 @@ class V2Axis extends V2AppSection {
     super(app, 'axis', '--compass', 'Axis', 'Turn Object with MIDI Orientation Data');
     Object.seal(this);
 
-    this.app.device.getDevice().addNotifier('controlChange', (channel, controller, value) => {
+    this.app.main.getDevice().addNotifier('controlChange', (channel, controller, value) => {
       switch (controller) {
         case V2MIDI.CC.generalPurpose1 + 0:
           this.#cc.w = value;
@@ -86,7 +86,7 @@ class V2Axis extends V2AppSection {
       menu.addElement('button', (e) => {
         e.textContent = 'Reset';
         e.addEventListener('click', () => {
-          this.app.device.sendSystemReset();
+          this.app.main.sendSystemReset();
           this.#quat = glMatrix.quat.create();
           this.#update();
         });
@@ -95,14 +95,14 @@ class V2Axis extends V2AppSection {
       menu.addElement('button', (e) => {
         e.textContent = 'Home';
         e.addEventListener('click', () => {
-          this.app.device.sendControlChange(0, V2MIDI.CC.controller14, 0);
+          this.app.main.sendControlChange(0, V2MIDI.CC.controller14, 0);
         });
       });
 
       menu.addElement('button', (e) => {
         e.textContent = 'Save';
         e.addEventListener('click', () => {
-          this.app.device.sendControlChange(0, V2MIDI.CC.controller15, 0);
+          this.app.main.sendControlChange(0, V2MIDI.CC.controller15, 0);
         });
       });
     });
@@ -137,7 +137,7 @@ class V2Axis extends V2AppSection {
       gl.compileShader(shader);
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
         this.#notify.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
-        this.app.device.print('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+        this.app.main.print('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
         gl.deleteShader(shader);
         return null;
       }
@@ -155,7 +155,7 @@ class V2Axis extends V2AppSection {
       gl.linkProgram(shaderProgram);
       if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
         this.#notify.error('Error initializing the shader program: ' + gl.getProgramInfoLog(shaderProgram));
-        this.app.device.print('Error initializing the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+        this.app.main.print('Error initializing the shader program: ' + gl.getProgramInfoLog(shaderProgram));
         return null;
       }
 
@@ -331,7 +331,7 @@ class V2Axis extends V2AppSection {
     const gl = this.#element.getContext("webgl") || this.#element.getContext("experimental-webgl");
     if (!gl) {
       this.#notify.error("WebGL is not supported");
-      this.app.device.print("WebGL is not supported");
+      this.app.main.print("WebGL is not supported");
       return;
     }
 
@@ -382,7 +382,7 @@ class V2Axis extends V2AppSection {
       });
     };
 
-    this.app.device.sendControlChange(0, V2MIDI.CC.allNotesOff, 0);
+    this.app.main.sendControlChange(0, V2MIDI.CC.allNotesOff, 0);
     this.#update();
   }
 
